@@ -3,7 +3,6 @@ FROM ubuntu:22.04
 
 # Set environment variables to prevent interactive prompts during package installations
 ENV DEBIAN_FRONTEND=noninteractive
-ARG GIT_TOKEN
 
 
 # Install system dependencies including git
@@ -19,8 +18,9 @@ RUN apt-get update && apt-get install -y \
 # Install PostgreSQL (15.4)
 RUN apt-get update && apt-get install -y postgresql
 
-COPY moonshot .
+COPY ./moonshot moonshot
 
+# Set the working directory to /moonshot
 WORKDIR /moonshot
 
 # Install Python dependencies
