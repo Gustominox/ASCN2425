@@ -1,38 +1,38 @@
-# syntax=docker/dockerfile:1
+# 22.04 
 FROM ubuntu:22.04
 
-# Set environment variables to prevent interactive prompts during package installations
+# frontend não-interativo evita prompts durante a instalação
 ENV DEBIAN_FRONTEND=noninteractive
 
-
-# Install system dependencies including git
+# dependencias
 RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    python3-venv \
-    build-essential \
-    libpq-dev \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+    python3-pip \  
+    libpq-dev \  
+    build-essential \  
+    python3-dev \  
+    curl \  
+    && apt-get clean  
 
-# Install PostgreSQL (15.4)
-RUN apt-get update && apt-get install -y postgresql
+# diretoria
+WORKDIR /app
 
-COPY ./moonshot moonshot
+# copiar requirements
+COPY codebase/moonshot/requirements.txt /app/
 
-# Set the working directory to /moonshot
-WORKDIR /moonshot
+# instalar requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt  
 
-# Install Python dependencies
-RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt
+# copiar moonshot 
+COPY codebase/moonshot /app/
 
-# Generate a secure SECRET_KEY using Django's built-in utility
-#RUN SECRET_KEY=$(python3 -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())") && \
- #   echo "SECRET_KEY=$SECRET_KEY" >> ./.env
-
-# Expose the port that the application will run on
+# Expor a porta 8000
 EXPOSE 8000
 
-# Run migrations and start the server
-#CMD ["bash", "-c", "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"]
+# copiar o script para o container
+COPY moonshotscript.sh /app/
+
+# garantir permissão de execução
+RUN chmod +x /app/moonshotscript.sh
+
+# executar
+CMD ["/app/moonshotscript.sh"]
