@@ -5,3 +5,60 @@
   become: true # Ensures root privileges where needed
   roles:
     - docker
+
+  tasks:
+    # Step 1: Update and install dependencies
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install required dependencies
+      apt:
+        name:
+          - python3-pip
+          - libpq-dev
+          - build-essential
+          - python3-dev
+          - curl
+        state: present
+
+    # Step 2: Set up application directory
+    - name: Create application directory
+      file:
+        path: /app
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    # Step 3: Copy requirements.txt
+    - name: Copy requirements.txt to the node
+      copy:
+        src: docker/moonshot/requirements.txt
+        dest: /app/requirements.txt
+
+    # Step 4: Install Python dependencies from requirements.txt
+    - name: Install Python dependencies
+      pip:
+        requirements: /app/requirements.txt
+        virtualenv: /app/venv # Use a virtual environment for isolation
+        virtualenv_python: python3
+
+    # Step 5: Copy application files
+    - name: Copy Moonshot application code
+      copy:
+        src: docker/moonshot/
+        dest: /app/
+        owner: root
+        group: root
+        mode: "0755"
+
+    # Step 6: Ensure the script is executable
+    - name: Set execution permissions for moonshotscript.sh
+      file:
+        path: /app/moonshotscript.sh
+        mode: "0755"
+
+    # Step 7: Run the Moonshot application script
+    - name: Run the application
+      command: "/app/moonshotscript.sh"
