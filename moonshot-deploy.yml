@@ -4,7 +4,7 @@
   hosts: nodes
   become: true # Ensures root privileges where needed
   roles:
-    - docker
+    #- docker
     - docker-moon
   vars:
     build: true # Set build to true here
