@@ -19,6 +19,14 @@
     mode: "0755"
   when: build is defined and build
 
+- name: Copy application files to the build directory
+  ansible.builtin.copy:
+    src: moonshot/
+    dest: "{{ docker_build_dir }}/moonshot/"
+    owner: root
+    group: root
+    mode: "0755"
+
 - name: Build image from Dockerfile
   community.docker.docker_image:
     name: "{{ moonshot_image }}"
