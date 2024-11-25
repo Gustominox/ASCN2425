@@ -3,6 +3,8 @@
 - name: Deploy Moonshot Application on Kubernetes
   hosts: nodes
   become: true # Ensures root privileges where needed
+  roles:
+    - docker
 
   vars:
     # Docker variables
