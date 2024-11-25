@@ -6,19 +6,6 @@
   roles:
     - docker
   tasks:
-    # Step 1: Ensure Docker is installed
-    - name: Ensure Docker is installed
-      ansible.builtin.package:
-        name: docker.io
-        state: present
-
-    # Step 2: Start Docker service
-    - name: Ensure Docker service is running
-      ansible.builtin.service:
-        name: docker
-        state: started
-        enabled: true
-
     # Step 3: Create a build directory
     - name: Create a build directory
       ansible.builtin.file:
