@@ -19,20 +19,20 @@ all:
     dgc_uvci:
     # END Test variables (DO NOT CHANGE)
 
-    # APP variables
     app_ip: <APP_SERVICE_IP> # Needs to be updated
+    # APP variables
     app_port: <APP_PORT> # Needs to be updated
 
     # Additional variables
     # ...
 
-  hosts:
-    node1:
-      ansible_host: 35.222.139.126 # External IP of the first node
-      ansible_user: ubuntu # Default user for GKE nodes
-      ansible_ssh_private_key_file: /path/to/your/private/key # Replace with your private key path
+  # hosts:
+  #   node1:
+  #     ansible_host: 35.222.139.126 # External IP of the first node
+  #     ansible_user: ubuntu # Default user for GKE nodes
+  #     ansible_ssh_private_key_file: /path/to/your/private/key # Replace with your private key path
 
-    node2:
-      ansible_host: 34.16.113.106 # External IP of the second node
-      ansible_user: ubuntu # Default user for GKE nodes
-      ansible_ssh_private_key_file: /path/to/your/private/key # Replace with your private key path
+  #   node2:
+  #     ansible_host: 34.16.113.106 # External IP of the second node
+  #     ansible_user: ubuntu # Default user for GKE nodes
+  #     ansible_ssh_private_key_file: /path/to/your/private/key # Replace with your private key path

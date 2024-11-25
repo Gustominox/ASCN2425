@@ -19,10 +19,10 @@
 
   tasks:
     # Step 1: Ensure Docker is installed for building images
-    - name: Ensure Docker is installed
-      ansible.builtin.package:
-        name: docker.io
-        state: present
+    # - name: Ensure Docker is installed
+    #   ansible.builtin.package:
+    #     name: docker-
+    #     state: present
 
     - name: Ensure Docker is running
       ansible.builtin.service:
