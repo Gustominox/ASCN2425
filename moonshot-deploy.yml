@@ -6,70 +6,68 @@
   roles:
     - docker
   tasks:
-    # Step 1: Update apt cache
-    - name: Update apt cache
-      apt:
-        update_cache: yes
-
-    # Step 2: Install required dependencies
-    - name: Install required dependencies
-      apt:
-        name:
-          - python3-pip
-          - libpq-dev
-          - build-essential
-          - python3-dev
-          - curl
+---
+# Playbook to deploy Moonshot Application with Docker
+- name: Deploy Moonshot Application
+  hosts: nodes
+  become: true # Ensures root privileges where needed
+  tasks:
+    # Step 1: Ensure Docker is installed
+    - name: Ensure Docker is installed
+      ansible.builtin.package:
+        name: docker.io
         state: present
 
-    # Step 3: Install Python dependencies globally
-    - name: Install Python dependencies from requirements.txt
-      pip:
-        requirements: /app/requirements.txt
+    # Step 2: Start Docker service
+    - name: Ensure Docker service is running
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
 
-    # Step 4: Create application directory
-    - name: Create application directory
-      file:
-        path: /app
+    # Step 3: Create a build directory
+    - name: Create a build directory
+      ansible.builtin.file:
+        path: /app/build
         state: directory
         owner: root
         group: root
         mode: "0755"
 
-    # Step 5: Copy requirements.txt
-    - name: Copy requirements.txt to the node
-      copy:
-        src: docker/moonshot/requirements.txt
-        dest: /app/requirements.txt
+    # Step 4: Copy Dockerfile to the build directory
+    - name: Copy Dockerfile to the build directory
+      ansible.builtin.copy:
+        src: docker/moonshot/Dockerfile
+        dest: /app/build/Dockerfile
+        mode: "0644"
 
-    # Step 6: Check if application code is already copied
-    - name: Check if application code exists
-      stat:
-        path: /app/manage.py # Use a file that is unique to the application
-      register: app_code_exists
-
-    # Step 7: Copy application code (only if not already copied)
-    - name: Copy Moonshot application code
-      copy:
+    # Step 5: Copy application code and script to the build directory
+    - name: Copy application code to the build directory
+      ansible.builtin.copy:
         src: docker/moonshot/
-        dest: /app/
+        dest: /app/build/
         owner: root
         group: root
         mode: "0755"
-      when: not app_code_exists.stat.exists
-    # Step 7: Copy moonshotscript.sh
-    - name: Copy Moonshot script to the node
-      copy:
-        src: docker/moonshotscript.sh
-        dest: /app/moonshotscript.sh
-        mode: "0755"
 
-    # Step 8: Set execution permissions for moonshotscript.sh
-    - name: Ensure script is executable
-      file:
-        path: /app/moonshotscript.sh
-        mode: "0755"
+    # Step 6: Build the Docker image
+    - name: Build Moonshot Docker image
+      community.docker.docker_image:
+        name: moonshot_image
+        build:
+          path: /app/build
 
-    # Step 9: Run the Moonshot application script
-    - name: Run the application
-      command: "/app/moonshotscript.sh"
+    # Step 7: Run Moonshot container
+    - name: Run Moonshot container
+      community.docker.docker_container:
+        name: moonshot_container
+        image: moonshot_image
+        state: started
+        ports:
+          - "8000:8000"
+        detach: true
+        env:
+          DB_HOST: "localhost" # Example environment variables
+          DB_DATABASE: "moonshot"
+          DB_USERNAME: "moonshot_user"
+          DB_PASSWORD: "moonshot_password"
