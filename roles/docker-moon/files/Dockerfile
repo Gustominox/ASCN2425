@@ -17,13 +17,13 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # copiar requirements
-COPY codebase/moonshot/requirements.txt /app/
+COPY moonshot/requirements.txt /app/
 
 # instalar requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt  
 
 # copiar moonshot 
-COPY codebase/moonshot /app/
+COPY moonshot /app/
 
 # Expor a porta 8000
 EXPOSE 8000
