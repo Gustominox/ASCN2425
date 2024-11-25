@@ -6,68 +6,67 @@
   roles:
     - docker
   tasks:
----
-# Playbook to deploy Moonshot Application with Docker
-- name: Deploy Moonshot Application
-  hosts: nodes
-  become: true # Ensures root privileges where needed
-  tasks:
-    # Step 1: Ensure Docker is installed
-    - name: Ensure Docker is installed
-      ansible.builtin.package:
-        name: docker.io
-        state: present
+    # Playbook to deploy Moonshot Application with Docker
+    - name: Deploy Moonshot Application
+    hosts: nodes
+    become: true # Ensures root privileges where needed
+    tasks:
+      # Step 1: Ensure Docker is installed
+      - name: Ensure Docker is installed
+        ansible.builtin.package:
+          name: docker.io
+          state: present
 
-    # Step 2: Start Docker service
-    - name: Ensure Docker service is running
-      ansible.builtin.service:
-        name: docker
-        state: started
-        enabled: true
+      # Step 2: Start Docker service
+      - name: Ensure Docker service is running
+        ansible.builtin.service:
+          name: docker
+          state: started
+          enabled: true
 
-    # Step 3: Create a build directory
-    - name: Create a build directory
-      ansible.builtin.file:
-        path: /app/build
-        state: directory
-        owner: root
-        group: root
-        mode: "0755"
-
-    # Step 4: Copy Dockerfile to the build directory
-    - name: Copy Dockerfile to the build directory
-      ansible.builtin.copy:
-        src: docker/moonshot/Dockerfile
-        dest: /app/build/Dockerfile
-        mode: "0644"
-
-    # Step 5: Copy application code and script to the build directory
-    - name: Copy application code to the build directory
-      ansible.builtin.copy:
-        src: docker/moonshot/
-        dest: /app/build/
-        owner: root
-        group: root
-        mode: "0755"
-
-    # Step 6: Build the Docker image
-    - name: Build Moonshot Docker image
-      community.docker.docker_image:
-        name: moonshot_image
-        build:
+      # Step 3: Create a build directory
+      - name: Create a build directory
+        ansible.builtin.file:
           path: /app/build
+          state: directory
+          owner: root
+          group: root
+          mode: "0755"
 
-    # Step 7: Run Moonshot container
-    - name: Run Moonshot container
-      community.docker.docker_container:
-        name: moonshot_container
-        image: moonshot_image
-        state: started
-        ports:
-          - "8000:8000"
-        detach: true
-        env:
-          DB_HOST: "localhost" # Example environment variables
-          DB_DATABASE: "moonshot"
-          DB_USERNAME: "moonshot_user"
-          DB_PASSWORD: "moonshot_password"
+      # Step 4: Copy Dockerfile to the build directory
+      - name: Copy Dockerfile to the build directory
+        ansible.builtin.copy:
+          src: docker/moonshot/Dockerfile
+          dest: /app/build/Dockerfile
+          mode: "0644"
+
+      # Step 5: Copy application code and script to the build directory
+      - name: Copy application code to the build directory
+        ansible.builtin.copy:
+          src: docker/moonshot/
+          dest: /app/build/
+          owner: root
+          group: root
+          mode: "0755"
+
+      # Step 6: Build the Docker image
+      - name: Build Moonshot Docker image
+        community.docker.docker_image:
+          name: moonshot_image
+          build:
+            path: /app/build
+
+      # Step 7: Run Moonshot container
+      - name: Run Moonshot container
+        community.docker.docker_container:
+          name: moonshot_container
+          image: moonshot_image
+          state: started
+          ports:
+            - "8000:8000"
+          detach: true
+          env:
+            DB_HOST: "localhost" # Example environment variables
+            DB_DATABASE: "moonshot"
+            DB_USERNAME: "moonshot_user"
+            DB_PASSWORD: "moonshot_password"
