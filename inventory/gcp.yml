@@ -26,8 +26,8 @@ all:
     # Additional variables
     # ...
 
-  hosts:
-    nodes:
+  nodes:
+    hosts:
       node1:
         ansible_host: 35.222.139.126 # External IP of the first node
         ansible_ssh_private_key_file: ~/.ssh/id_rsa # Replace with your private key path
