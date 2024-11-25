@@ -51,12 +51,19 @@
         group: root
         mode: "0755"
 
-    # Step 7: Ensure the script is executable
-    - name: Set execution permissions for moonshotscript.sh
+    # Step 7: Copy moonshotscript.sh
+    - name: Copy Moonshot script to the node
+      copy:
+        src: docker/moonshotscript.sh
+        dest: /app/moonshotscript.sh
+        mode: "0755"
+
+    # Step 8: Set execution permissions for moonshotscript.sh
+    - name: Ensure script is executable
       file:
         path: /app/moonshotscript.sh
         mode: "0755"
 
-    # Step 8: Run the Moonshot application script
+    # Step 9: Run the Moonshot application script
     - name: Run the application
       command: "/app/moonshotscript.sh"
