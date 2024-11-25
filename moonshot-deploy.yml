@@ -3,10 +3,8 @@
 - name: Deploy Moonshot Application on Kubernetes
   hosts: nodes
   become: true # Ensures root privileges where needed
-  roles:
-    - docker
-
-  tasks:
+  #roles:
+    #- docker
     # Step 1: Update apt cache
     - name: Update apt cache
       apt:
@@ -23,12 +21,12 @@
           - curl
         state: present
 
-    # Step 3: Install virtualenv
-    - name: Install virtualenv
+    # Step 3: Install Python dependencies globally
+    - name: Install Python dependencies from requirements.txt
       pip:
-        name: virtualenv
+        requirements: /app/requirements.txt
 
-    # Step 4: Set up application directory
+    # Step 4: Create application directory
     - name: Create application directory
       file:
         path: /app
@@ -43,13 +41,7 @@
         src: docker/moonshot/requirements.txt
         dest: /app/requirements.txt
 
-    # Step 6: Install Python dependencies in a virtual environment
-    - name: Install Python dependencies
-      command: >
-        virtualenv /app/venv &&
-        /app/venv/bin/pip install -r /app/requirements.txt
-
-    # Step 7: Copy application files
+    # Step 6: Copy application code
     - name: Copy Moonshot application code
       copy:
         src: docker/moonshot/
@@ -58,12 +50,12 @@
         group: root
         mode: "0755"
 
-    # Step 8: Ensure the script is executable
+    # Step 7: Ensure the script is executable
     - name: Set execution permissions for moonshotscript.sh
       file:
         path: /app/moonshotscript.sh
         mode: "0755"
 
-    # Step 9: Run the Moonshot application script
+    # Step 8: Run the Moonshot application script
     - name: Run the application
       command: "/app/moonshotscript.sh"
