@@ -42,7 +42,13 @@
         src: docker/moonshot/requirements.txt
         dest: /app/requirements.txt
 
-    # Step 6: Copy application code
+    # Step 6: Check if application code is already copied
+    - name: Check if application code exists
+      stat:
+        path: /app/manage.py # Use a file that is unique to the application
+      register: app_code_exists
+
+    # Step 7: Copy application code (only if not already copied)
     - name: Copy Moonshot application code
       copy:
         src: docker/moonshot/
@@ -50,7 +56,7 @@
         owner: root
         group: root
         mode: "0755"
-
+      when: not app_code_exists.stat.exists
     # Step 7: Copy moonshotscript.sh
     - name: Copy Moonshot script to the node
       copy:
