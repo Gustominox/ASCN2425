@@ -3,8 +3,9 @@
 - name: Deploy Moonshot Application on Kubernetes
   hosts: nodes
   become: true # Ensures root privileges where needed
-  roles:
-    - docker
+  #roles:
+  #- docker
+  tasks:
     # Step 1: Update apt cache
     - name: Update apt cache
       apt:
