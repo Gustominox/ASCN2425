@@ -1,7 +1,7 @@
 ---
 # Playbook to deploy Moonshot Application
 - name: Deploy Moonshot Application on Kubernetes
-  hosts: localhost
+  hosts: nodes
   become: true # Ensures root privileges where needed
 
   vars:
