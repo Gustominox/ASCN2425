@@ -6,3 +6,5 @@
   roles:
     - docker
     - docker-moon
+  vars:
+    build: true # Set build to true here
