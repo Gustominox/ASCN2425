@@ -23,7 +23,7 @@ spec:
               value: "{{ db_host }}"
             - name: DB_DATABASE
               value: "{{ db_name }}"
-            - name: DB_USERNAME
+            - name: DB_USER
               value: "{{ db_username }}"
             - name: DB_PASSWORD
               value: "{{ db_password }}"
