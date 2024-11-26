@@ -5,6 +5,10 @@
   become: true # Ensures root privileges where needed
   roles:
     - docker
+    tags: ["docker"]
+
     - docker-moon
+    tags: ["moonshot"]
+
   vars:
     build: true # Set build to true here
