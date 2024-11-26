@@ -37,7 +37,6 @@
     definition: "{{ lookup('template', 'postgres-pvc.yml') | from_yaml }}"
     state: present
     wait: true
-    kubeconfig: /home/vagrant/.kube/config
 
 - name: Create a Deployment for PostgreSQL
   kubernetes.core.k8s:
