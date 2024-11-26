@@ -10,6 +10,9 @@
     - docker-moon
     tags: ["moonshot"]
 
+    - docker-postgres
+    tags: ["postgres"]
+
     - k8s-moon
     tags: ["moonshot-deploy"]
 
