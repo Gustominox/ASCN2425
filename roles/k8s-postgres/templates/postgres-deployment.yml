@@ -19,21 +19,21 @@ spec:
         tier: database
     spec:
       containers:
-      - name: postgres
-        image: "{{ db_image }}" 
-        env: # The variables below could be set on a ConfigMap object
-        - name: POSTGRES_DB
-          value: "{{ db_name }}"
-        - name: POSTGRES_USER
-          value: "{{ db_username }}"
-        - name: POSTGRES_PASSWORD
-          value: "{{ db_password }}"  # aqui ns se ta tudo
-        ports:
-        - containerPort: 5432  # porta default do postgress
-        volumeMounts:
-        - name: postgres-persistent-storage
-          mountPath: /var/lib/postgresql/data   # rever
+        - name: postgres
+          image: "{{ db_image }}"
+          env: # The variables below could be set on a ConfigMap object
+            - name: DB_NAME
+              value: "{{ db_name }}"
+            - name: DB_USER
+              value: "{{ db_username }}"
+            - name: DB_PASSWORD
+              value: "{{ db_password }}" # aqui ns se ta tudo
+          ports:
+            - containerPort: 5432 # porta default do postgress
+          volumeMounts:
+            - name: postgres-persistent-storage
+              mountPath: /var/lib/postgresql/data # rever
       volumes:
-      - name: postgres-persistent-storage
-        persistentVolumeClaim:
-          claimName: "{{ pvc_name }}"
+        - name: postgres-persistent-storage
+          persistentVolumeClaim:
+            claimName: "{{ pvc_name }}"
