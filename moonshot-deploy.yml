@@ -10,5 +10,8 @@
     - docker-moon
     tags: ["moonshot"]
 
+    - k8s-moon
+    tags: ["moonshot-deploy"]
+
   vars:
     build: true # Set build to true here
