@@ -7,6 +7,7 @@ metadata:
   namespace: default
 spec:
   type: LoadBalancer # Cria um IP público ou balanceador de carga no provedor de nuvem
+  loadBalancerIP: 34.45.205.148
   selector:
     app: moonshot
   ports:
