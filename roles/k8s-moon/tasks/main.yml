@@ -1,7 +1,7 @@
 - name: Create a Deployment for moonshot
   kubernetes.core.k8s:
     state: present
-    definition: "{{ lookup('template', 'deployment.yml') | from_yaml }}"
+    definition: "{{ lookup('template', 'moon-deployment.yml') | from_yaml }}"
     wait: true
 
 - name: Create a service for exposing moonshot
