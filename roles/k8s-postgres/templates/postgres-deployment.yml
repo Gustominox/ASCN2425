@@ -28,6 +28,8 @@ spec:
               value: "{{ db_username }}"
             - name: POSTGRES_PASSWORD
               value: "{{ db_password }}" # aqui ns se ta tudo
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           ports:
             - containerPort: 5432 # porta default do postgress
           volumeMounts:
