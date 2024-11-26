@@ -2,6 +2,7 @@
 # Playbook to deploy Moonshot Application
 - name: Deploy Moonshot Application on Kubernetes
   hosts: nodes
+  gather_facts: false
   become: true # Ensures root privileges where needed
   roles:
     # - role: docker
