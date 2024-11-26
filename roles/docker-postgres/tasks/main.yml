@@ -25,9 +25,9 @@
     ports:
       - "5432:5432" # PostgreSQL default port
     env:
-      POSTGRES_DB: "{{ db_name }}" # Name of the database to create
-      POSTGRES_USER: "{{ db_username }}" # Username for the database
-      POSTGRES_PASSWORD: "{{ db_password }}" # Password for the user
+      DB_NAME: "{{ db_name }}" # Name of the database to create
+      DB_USER: "{{ db_username }}" # Username for the database
+      DB_PASSWORD: "{{ db_password }}" # Password for the user
     volumes:
       - postgres:/var/lib/postgresql/data # Volume for persistent data
     networks:
