@@ -30,6 +30,11 @@ spec:
               value: "{{ db_password }}" # aqui ns se ta tudo
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: django-secret-key # Name of the Secret
+                  key: SECRET_KEY # Key inside the Secret
           ports:
             - containerPort: 5432 # porta default do postgress
           volumeMounts:
