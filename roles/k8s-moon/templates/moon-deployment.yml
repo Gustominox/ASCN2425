@@ -21,17 +21,11 @@ spec:
           env:
             - name: DB_HOST
               value: "{{ db_host }}"
-            # - name: DB_DATABASE
-            #   value: "{{ db_name }}"
-            # - name: DB_USER
-            #   value: "{{ db_username }}"
-            # - name: DB_PASSWORD
-            #   value: "{{ db_password }}"
-            - name: POSTGRES_DB
+            - name: DB_DATABASE
               value: "{{ db_name }}"
-            - name: POSTGRES_USER
+            - name: DB_USER
               value: "{{ db_username }}"
-            - name: POSTGRES_PASSWORD
-              value: "{{ db_password }}" # aqui ns se ta tudo
+            - name: DB_PASSWORD
+              value: "{{ db_password }}"
           ports:
             - containerPort: 8000
