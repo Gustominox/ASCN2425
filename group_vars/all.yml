@@ -1,7 +1,7 @@
 # Database configurations
 db_network: dnet
 db_host: moonshot-db
-db_image: mysql:latest
+#db_image: mysql:latest
 db_name: moonshot
 db_username: moonshot_user
 db_password: moonshot_secret
