@@ -17,6 +17,21 @@
   debug:
     msg: "Python version installed: {{ python_version.stdout }}"
 
+- name: Ensure kubernetes Python library is installed
+  pip:
+    name: kubernetes
+    executable: python3
+  become: true
+
+- name: Verify kubernetes library installation
+  command: python3 -m pip show kubernetes
+  register: kubernetes_lib
+  changed_when: false
+
+- name: Show kubernetes library version
+  debug:
+    msg: "Kubernetes library installed: {{ kubernetes_lib.stdout }}"
+
 - name: Create a PVC for PostgreSQL
   kubernetes.core.k8s:
     definition: "{{ lookup('template', 'postgres-pvc.yml') | from_yaml }}"
