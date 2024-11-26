@@ -4,14 +4,17 @@
   hosts: nodes
   become: true # Ensures root privileges where needed
   roles:
-    - role: docker
-      tags: ["docker"]
+    # - role: docker
+    #   tags: ["docker"]
 
-    - role: docker-moon
-      tags: ["moonshot"]
+    # - role: docker-moon
+    #   tags: ["moonshot"]
 
-    - role: docker-postgres
-      tags: ["postgres"]
+    # - role: docker-postgres
+    #   tags: ["postgres"]
+
+    - role: k8s-postgres
+      tags: ["postgres-deploy"]
 
     - role: k8s-moon
       tags: ["moonshot-deploy"]
