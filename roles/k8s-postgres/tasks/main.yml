@@ -6,7 +6,6 @@
 - name: Ensure pip is installed
   raw: |
     sudo apt install -y python3-pip
-  changed_when: false
 
 - name: Verify Python installation
   command: python3 --version
@@ -18,9 +17,9 @@
     msg: "Python version installed: {{ python_version.stdout }}"
 
 - name: Ensure kubernetes Python library is installed
-  pip:
+  ansible.builtin.pip:
     name: kubernetes
-    executable: python3
+    executable: /usr/bin/pip3
   become: true
 
 - name: Verify kubernetes library installation
