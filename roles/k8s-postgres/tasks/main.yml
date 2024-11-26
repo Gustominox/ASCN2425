@@ -6,6 +6,7 @@
 - name: Ensure pip is installed
   raw: |
     sudo apt install -y python3-pip
+  changed_when: false
 
 - name: Verify Python installation
   command: python3 --version
