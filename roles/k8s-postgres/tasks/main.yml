@@ -1,36 +1,36 @@
-- name: Ensure Python is installed
-  raw: |
-    sudo apt update && sudo apt install -y python3
-  changed_when: false # Prevent Ansible from reporting changes on every run
+# - name: Ensure Python is installed
+#   raw: |
+#     sudo apt update && sudo apt install -y python3
+#   changed_when: false # Prevent Ansible from reporting changes on every run
 
-- name: Ensure pip is installed
-  raw: |
-    sudo apt install -y python3-pip
-  changed_when: false
+# - name: Ensure pip is installed
+#   raw: |
+#     sudo apt install -y python3-pip
+#   changed_when: false
 
-- name: Verify Python installation
-  command: python3 --version
-  register: python_version
-  changed_when: false
+# - name: Verify Python installation
+#   command: python3 --version
+#   register: python_version
+#   changed_when: false
 
-- name: Show Python version
-  debug:
-    msg: "Python version installed: {{ python_version.stdout }}"
+# - name: Show Python version
+#   debug:
+#     msg: "Python version installed: {{ python_version.stdout }}"
 
-- name: Ensure kubernetes Python library is installed
-  ansible.builtin.pip:
-    name: kubernetes
-    executable: /usr/bin/pip3
-  become: true
+# - name: Ensure kubernetes Python library is installed
+#   ansible.builtin.pip:
+#     name: kubernetes
+#     executable: /usr/bin/pip3
+#   become: true
 
-- name: Verify kubernetes library installation
-  command: python3 -m pip show kubernetes
-  register: kubernetes_lib
-  changed_when: false
+# - name: Verify kubernetes library installation
+#   command: python3 -m pip show kubernetes
+#   register: kubernetes_lib
+#   changed_when: false
 
-- name: Show kubernetes library version
-  debug:
-    msg: "Kubernetes library installed: {{ kubernetes_lib.stdout }}"
+# - name: Show kubernetes library version
+#   debug:
+#     msg: "Kubernetes library installed: {{ kubernetes_lib.stdout }}"
 
 - name: Create a PVC for PostgreSQL
   kubernetes.core.k8s:
