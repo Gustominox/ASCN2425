@@ -45,7 +45,7 @@
     env:
       DB_HOST: "{{ db_host }}"
       DB_DATABASE: "{{ db_name }}"
-      DB_USERNAME: "{{ db_username }}"
+      DB_USER: "{{ db_username }}"
       DB_PASSWORD: "{{ db_password }}"
       SEED: "true"
     networks:
