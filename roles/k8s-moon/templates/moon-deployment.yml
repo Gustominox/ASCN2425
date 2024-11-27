@@ -21,11 +21,14 @@ spec:
           env:
             - name: DB_HOST
               value: "{{ db_host }}"
-            - name: DB_DATABASE
+            - name: DB_NAME
               value: "{{ db_name }}"
             - name: DB_USER
               value: "{{ db_username }}"
             - name: DB_PASSWORD
               value: "{{ db_password }}"
+            - name: DB_PORT
+              value: "5432"
+
           ports:
             - containerPort: 8000
