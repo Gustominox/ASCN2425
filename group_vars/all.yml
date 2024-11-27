@@ -5,3 +5,4 @@ db_image: postgres:15.4
 db_name: moonshot
 db_username: admin
 db_password: "123456"
+db_trust: "trust"
