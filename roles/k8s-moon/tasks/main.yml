@@ -15,8 +15,6 @@
   kubernetes.core.k8s_info:
     kind: Pod
     namespace: default
-    label_selectors:
-      - app=moonshot
     wait: true
     wait_sleep: 5
     wait_timeout: 180
