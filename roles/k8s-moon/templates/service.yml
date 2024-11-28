@@ -11,5 +11,6 @@ spec:
   selector:
     app: moonshot
   ports:
-    - port: 8000 # Porta acessível externamente pelo balanceador de carga
+    - protocol: TCP
+      port: 8000 # Porta acessível externamente pelo balanceador de carga
       targetPort: 8000 # Porta no contêiner onde o tráfego será roteado
