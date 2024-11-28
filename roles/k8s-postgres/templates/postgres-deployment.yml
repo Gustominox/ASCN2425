@@ -36,7 +36,7 @@ spec:
             - containerPort: 5432 # porta default do postgress
           volumeMounts:
             - name: postgres-persistent-storage
-              mountPath: /var/lib/postgresql/data
+              mountPath: /var/lib/postgres
       volumes:
         - name: postgres-persistent-storage
           persistentVolumeClaim:
