@@ -1,3 +1,4 @@
+---
 - name: Create a Deployment for moonshot
   kubernetes.core.k8s:
     state: present
