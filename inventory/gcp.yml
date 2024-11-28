@@ -20,8 +20,8 @@ all:
     # END Test variables (DO NOT CHANGE)
 
     # APP variables
-    app_ip: # Needs to be updated
-    app_port: # Needs to be updated
+    app_ip: 34.30.253.177
+    app_port: 80
 
     # Additional variables
     # ...
