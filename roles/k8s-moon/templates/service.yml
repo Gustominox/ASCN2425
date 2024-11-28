@@ -15,8 +15,7 @@ spec:
     - name: http
       protocol: TCP
       targetPort: 8000
-      port:
-        "{ app_port }": null
+      port: "{ app_port }"
   sessionAffinity: ClientIP
   sessionAffinityConfig:
     clientIP:
