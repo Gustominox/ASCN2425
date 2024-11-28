@@ -1,5 +1,4 @@
 # Database configurations
-db_network: dnet
 db_host: moonshot-db
 db_image: postgres:latest
 db_name: moonshot
