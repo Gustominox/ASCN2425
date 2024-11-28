@@ -1,3 +1,4 @@
+---
 - name: Create a PVC for PostgreSQL
   kubernetes.core.k8s:
     definition: "{{ lookup('template', 'postgres-pvc.yml') | from_yaml }}"
