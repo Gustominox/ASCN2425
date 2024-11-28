@@ -20,17 +20,5 @@ all:
     # END Test variables (DO NOT CHANGE)
 
     # APP variables
-    app_ip: 34.30.253.177
-    app_port: 80
-
-    # Additional variables
-    # ...
-
-nodes:
-  hosts:
-    node1:
-      ansible_host: 34.16.113.106 # External IP of the first node
-    #   ansible_ssh_private_key_file: ~/.ssh/id_rsa # Replace with your private key path
-    node2:
-      ansible_host: 34.133.204.138 # External IP of the second node
-    #  ansible_ssh_private_key_file: ~/.ssh/id_rsa # Replace with your private key path
+    app_ip:
+    app_port:

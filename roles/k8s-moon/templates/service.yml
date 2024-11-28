@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: moonshot-service
+  name: "{{ moonshot_host }}"
   labels:
     app: moonshot
+    tier: app
   namespace: default
 spec:
   type: LoadBalancer # Cria um IP público ou balanceador de carga no provedor de nuvem
@@ -12,8 +13,8 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 80 # Porta acessível externamente pelo balanceador de carga
       targetPort: 8000 # Porta no contêiner onde o tráfego será roteado
+      port: { { app_port } } # Porta acessível externamente pelo balanceador de carga
   sessionAffinity: ClientIP
   sessionAffinityConfig:
     clientIP:

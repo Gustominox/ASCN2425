@@ -1,8 +1,7 @@
 # Database configurations
-db_network: dnet
-db_host: moonshot-db
-db_image: postgres:15.4
+db_host: moonshot
+db_image: "postgres:15.4"
 db_name: moonshot
 db_username: admin
-db_password: "123456"
+db_password: password
 db_trust: "trust"

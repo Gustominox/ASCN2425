@@ -1,12 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: moonshot
+  name: moonshot-dp
   labels:
     app: moonshot
   namespace: default
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: moonshot
@@ -27,8 +26,5 @@ spec:
               value: "{{ db_username }}"
             - name: DB_PASSWORD
               value: "{{ db_password }}"
-            - name: DB_PORT
-              value: "5432"
-
-          ports:
-            - containerPort: 8000
+        ports:
+          - containerPort: 8000
