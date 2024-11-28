@@ -15,11 +15,11 @@
     kind: Service
     label_selectors:
       - app = moonshot
-  register: moonshot-service
+  register: moonshot_service
   #until: laravelioservice.resources[0].status.loadBalancer != {}:
   #This is a loop condition that checks if the LoadBalancer status of the Service is not empty.
   #It means it waits until an external IP is assigned to the Service.
-  until: moonshot-service.resources[0].status.loadBalancer != {}
+  until: moonshot_service.resources[0].status.loadBalancer != {}
   delay: 5
   retries: 10
 
