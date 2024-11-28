@@ -1,13 +1,32 @@
-- name: Create a Deployment for moonshot
+- name: moonshot PVC
   kubernetes.core.k8s:
     state: present
-    definition: "{{ lookup('template', 'moon-deployment.yml') | from_yaml }}"
-    wait: true
+    definition: "{{ lookup('template', 'moon-pvc.yml') | from_yaml }}"
+    namespace: default
 
 - name: Create a service for exposing moonshot
   kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', 'service.yml') | from_yaml }}"
+    wait: true
+
+- name: Wait for Lavarel service
+  kubernetes.core.k8s_info:
+    kind: Service
+    label_selectors:
+      - app = moonshot
+  register: moonshot-service
+  #until: laravelioservice.resources[0].status.loadBalancer != {}:
+  #This is a loop condition that checks if the LoadBalancer status of the Service is not empty.
+  #It means it waits until an external IP is assigned to the Service.
+  until: moonshot-service.resources[0].status.loadBalancer != {}
+  delay: 5
+  retries: 10
+
+- name: Create a Deployment for moonshot
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'moon-deployment.yml') | from_yaml }}"
     wait: true
 
 - name: Wait till moonshot pod is created
@@ -20,10 +39,3 @@
     wait_sleep: 5
     wait_timeout: 180
   register: moonshot_pod_info
-
-- name: Seed the database
-  kubernetes.core.k8s_exec:
-    namespace: default
-    pod: "{{ moonshot_pod_info.resources[0].metadata.name }}"
-    command: php artisan db:seed
-  when: seed_db is defined and seed_db
