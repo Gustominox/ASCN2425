@@ -62,3 +62,9 @@
     path: inventory/gcp.yml
     regexp: 'app_ip: [^\n]+'
     replace: "app_ip: {{ app_ip }}"
+
+- name: Replace app_port on GCP
+  replace:
+    path: inventory/gcp.yml
+    regexp: 'app_port: [^\n]+'
+    replace: "app_port: {{ app_port }}"
