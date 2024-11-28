@@ -10,6 +10,11 @@ spec:
   selector:
     app: moonshot
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 80 # Porta acessível externamente pelo balanceador de carga
       targetPort: 8000 # Porta no contêiner onde o tráfego será roteado
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 7200
