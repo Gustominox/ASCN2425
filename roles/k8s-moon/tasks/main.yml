@@ -23,6 +23,27 @@
   delay: 5
   retries: 10
 
+- name: Set app_ip
+  set_fact:
+    app_ip: "{{ moonshot_service.resources[0].status.loadBalancer.ingress[0].ip }}"
+    app_port: "{{ moonshot_service.resources[0].spec.ports[0].port }}"
+
+- name: Replace app_id on GCP
+  replace:
+    path: inventory/gcp.yml
+    #app_port:: The literal string "app_port:".
+    #[^\n]+: One or more characters (except newline) following "app_port:".
+    regexp: 'app_ip: [^\n]+'
+    replace: "app_ip: {{ app_ip }}"
+
+- name: Replace app_port on GCP
+  replace:
+    path: inventory/gcp.yml
+    #app_port:: The literal string "app_port:".
+    #[^\n]+: One or more characters (except newline) following "app_port:".
+    regexp: 'app_port: [^\n]+'
+    replace: "app_port: {{ app_port }}"
+
 - name: Create a Deployment for moonshot
   kubernetes.core.k8s:
     state: present
