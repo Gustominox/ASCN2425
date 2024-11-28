@@ -21,4 +21,4 @@ all:
 
     # APP variables
     app_ip:
-    app_port:
+    app_port: 80
