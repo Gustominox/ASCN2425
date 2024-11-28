@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: moonshot-dp
+  name: moonshot-deployment
   labels:
     app: moonshot
   namespace: default
