@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: moonshot-deployment
-  labels:
-    app: moonshot
   namespace: default
 spec:
   selector:
