@@ -28,13 +28,12 @@
     wait_sleep: 5
     wait_timeout: 500
   register: postgres_pod_info
-
-- name: Wait until PostgreSQL is ready to accept connections
-  kubernetes.core.k8s_exec:
-    namespace: default
-    pod: "{{ postgres_pod_info.resources[0].metadata.name }}"
-    command: psql -U {{ db_username }} -d {{ db_name }} -c "\l"
-  register: postgres_login
-  retries: 3
-  delay: 100
-  until: postgres_login.rc == 0
+# - name: Wait until PostgreSQL is ready to accept connections
+#   kubernetes.core.k8s_exec:
+#     namespace: default
+#     pod: "{{ postgres_pod_info.resources[0].metadata.name }}"
+#     command: psql -U {{ db_username }} -d {{ db_name }} -c "\l"
+#   register: postgres_login
+#   retries: 3
+#   delay: 100
+#   until: postgres_login.rc == 0
