@@ -28,9 +28,7 @@ spec:
             - name: POSTGRES_USER
               value: "{{ db_username }}"
             - name: POSTGRES_PASSWORD
-              value: "{{ db_password }}" # aqui ns se ta tudo
-            - name: PGDATA
-              value: /var/lib/postgres/pgdata
+              value: "{{ db_password }}"
             - name: POSTGRES_HOST_AUTH_METHOD
               value: "{{ db_trust }}"
             # - name: SECRET_KEY
@@ -40,3 +38,10 @@ spec:
             #       key: SECRET_KEY # Key inside the Secret
           ports:
             - containerPort: 5432 # porta default do postgress
+          volumeMounts:
+            - name: postgres-persistent-storage
+              mountPath: /var/lib/postgres
+      volumes:
+        - name: postgres-persistent-storage
+          persistentVolumeClaim:
+            claimName: "{{ pvc_name }}"
