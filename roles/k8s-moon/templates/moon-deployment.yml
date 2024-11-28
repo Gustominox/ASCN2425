@@ -24,5 +24,5 @@ spec:
               value: "{{ db_username }}"
             - name: DB_PASSWORD
               value: "{{ db_password }}"
-        ports:
-          - containerPort: 8000
+      ports:
+        - containerPort: 8000
