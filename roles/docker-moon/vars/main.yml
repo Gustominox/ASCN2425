@@ -1,4 +1,0 @@
-docker_build_dir: /tmp/moonshot
-moonshot_image: moonshot:latest
-#moonshot_image: ascnuminho/swap:u24
-moonshot_container: moonshot
