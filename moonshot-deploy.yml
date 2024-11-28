@@ -4,8 +4,6 @@
   hosts: localhost
   gather_facts: false
   become: true # Ensures root privileges where needed
-  environment:
-    KUBECONFIG: /home/vagrant/.kube/config # Define explicitamente o caminho do kubeconfig
   roles:
     # - role: docker
     #   tags: ["docker"]
