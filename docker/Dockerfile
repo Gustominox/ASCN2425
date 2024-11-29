@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \  
     build-essential \  
     python3-dev \  
-    curl \  
+    curl \
+    postgresql-client \  
     && apt-get clean  
 
 # Diretório de trabalho
