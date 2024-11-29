@@ -1,5 +1,5 @@
 # 22.04 
-FROM ubuntu:22.04
+FROM python:3.11.5-slim
 
 # Frontend não-interativo evita prompts durante a instalação
 ENV DEBIAN_FRONTEND=noninteractive
