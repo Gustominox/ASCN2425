@@ -25,14 +25,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # copiar moonshot 
 COPY codebase/moonshot /app/
 
+# migrações e seed da base de dados
+RUN python3 /app/manage.py migrate && \
+    python3 /app/seed.py
+
 # Expor a porta 8000
 EXPOSE 8000
 
-# copiar o script para o container
-COPY moonshotscript.sh /app/
-
-# garantir permissão de execução
-RUN chmod +x /app/moonshotscript.sh
-
-# executar
-CMD ["/app/moonshotscript.sh"]
+# executar o servidor diretamente
+CMD ["python3", "/app/manage.py", "runserver", "0.0.0.0:8000"]
