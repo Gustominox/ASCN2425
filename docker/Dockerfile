@@ -29,5 +29,8 @@ COPY codebase/moonshot /app/
 # Expor a porta 8000
 EXPOSE 8000
 
+# Cleanup
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Executar o servidor e migrações no startup
 CMD ["sh", "-c", "python3 /app/manage.py migrate && python3 /app/seed.py && python3 /app/manage.py runserver 0.0.0.0:8000"]
