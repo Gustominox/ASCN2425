@@ -20,5 +20,5 @@ all:
     # END Test variables (DO NOT CHANGE)
 
     # APP variables
-    app_ip: 34.45.205.148
-    app_port: 80
+    app_ip: ""
+    app_port: ""

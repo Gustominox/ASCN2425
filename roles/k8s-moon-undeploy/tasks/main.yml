@@ -1,0 +1,30 @@
+---
+- name: Delete Moonshot Deployment
+  kubernetes.core.k8s:
+    state: absent
+    kind: Deployment
+    namespace: default
+    name: moonshot
+  tags: undeploy
+
+- name: Delete Moonshot Service
+  kubernetes.core.k8s:
+    state: absent
+    kind: Service
+    namespace: default
+    name: moonshot
+  tags: undeploy
+
+- name: Clean up app_ip in GCP inventory
+  replace:
+    path: inventory/gcp.yml
+    regexp: 'app_ip: [^\n]+'
+    replace: 'app_ip: ""'
+  tags: undeploy
+
+- name: Reset app_port in GCP inventory
+  replace:
+    path: inventory/gcp.yml
+    regexp: 'app_port: [^\n]+'
+    replace: 'app_port: ""'
+  tags: undeploy
