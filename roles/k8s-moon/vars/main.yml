@@ -1,2 +1,2 @@
-moonshot_image: gustominox/moonshot:latest
+moonshot_image: gustominox/moonshot-ascn:latest
 moonshot_host: moonshot-host
