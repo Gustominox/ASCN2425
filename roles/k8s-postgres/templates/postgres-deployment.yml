@@ -24,13 +24,32 @@ spec:
           image: "{{ db_image }}"
           env: # The variables below could be set on a ConfigMap object
             - name: POSTGRES_DB
-              value: "{{ db_name }}"
+              #value: "{{ db_name }}"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_NAME
+            
             - name: POSTGRES_USER
-              value: "{{ db_username }}"
+              #value: "{{ db_username }}"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_USERNAME
+            
             - name: POSTGRES_PASSWORD
-              value: "{{ db_password }}"
+              #value: "{{ db_password }}"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_PASSWORD
+            
             - name: POSTGRES_HOST_AUTH_METHOD
-              value: "{{ db_trust }}"
+              #value: "{{ db_trust }}"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_TRUST
 
           ports:
             - containerPort: 5432 # porta default do postgress

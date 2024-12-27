@@ -1,4 +1,10 @@
 ---
+- name: Create a Secret for PostgreSQL
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'postgres-secret.yml') | from_yaml }}"
+    state: present
+  tags: postgres
+
 - name: Create a PVC for PostgreSQL
   kubernetes.core.k8s:
     definition: "{{ lookup('template', 'postgres-pvc.yml') | from_yaml }}"

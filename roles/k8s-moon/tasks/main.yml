@@ -1,4 +1,11 @@
 ---
+- name: Create a secret for moonshot
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'moon-secret.yml') | from_yaml }}"
+    wait_timeout: 300
+  tags: moonshot
+
 - name: Create a service for exposing moonshot
   kubernetes.core.k8s:
     state: present

@@ -15,6 +15,17 @@
     name: moonshot
   tags: undeploy
 
+- name: Delete moon-secret
+  kubernetes.core.k8s:
+    state: absent
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: moon-secret
+        namespace: default
+  tags: moonshot
+
 - name: Clean up app_ip in GCP inventory
   replace:
     path: inventory/gcp.yml
