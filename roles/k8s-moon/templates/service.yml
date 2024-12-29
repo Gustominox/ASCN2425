@@ -9,7 +9,6 @@ metadata:
   namespace: default
 spec:
   type: LoadBalancer
-  loadBalancerIP: 34.45.205.148
   selector:
     app: moonshot
   ports:
