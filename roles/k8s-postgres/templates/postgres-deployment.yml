@@ -35,7 +35,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret
-                  key: DB_USERNAME
+                  key: DB_USER
             
             - name: POSTGRES_PASSWORD
               #value: "{{ db_password }}"
