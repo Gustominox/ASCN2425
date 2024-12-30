@@ -17,12 +17,31 @@ spec:
           image: "{{ moonshot_image }}"
           env:
             - name: DB_HOST
-              value: "{{ db_host }}"
+              #value: "{{ db_host }}"
+              valueFrom:
+                secretKeyRef:
+                  name: moon-secret
+                  key: DB_HOST
+
             - name: DB_NAME
-              value: "{{ db_name }}"
+              #value: "{{ db_name }}"
+              valueFrom:
+                secretKeyRef:
+                  name: moon-secret
+                  key: DB_NAME
+
             - name: DB_USER
-              value: "{{ db_username }}"
+              #value: "{{ db_username }}"
+              valueFrom:
+                secretKeyRef:
+                  name: moon-secret
+                  key: DB_USER
+
             - name: DB_PASSWORD
-              value: "{{ db_password }}"
+              #value: "{{ db_password }}"
+              valueFrom:
+                secretKeyRef:
+                  name: moon-secret
+                  key: DB_PASSWORD
       ports:
         - containerPort: 8000
