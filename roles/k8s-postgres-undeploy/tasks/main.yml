@@ -76,3 +76,15 @@
   until: info_pvc.resources | length == 0
   when: delete_data | bool
   tags: postgres
+
+- name: Delete postgres-secret
+  kubernetes.core.k8s:
+    state: absent
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: postgres-secret
+        namespace: default
+  when: delete_data | bool
+  tags: moonshot
