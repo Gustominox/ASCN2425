@@ -7,6 +7,7 @@
       metadata:
         name: "{{ db_host }}"
         namespace: default
+  when: delete_data | bool      
   tags: postgres
 
 - name: Wait - Delete PostgreSQL service 
@@ -19,6 +20,7 @@
   retries: 5
   delay: 100
   until: info_service.resources | length == 0
+  when: delete_data | bool
   tags: postgres
 
 - name: Delete PostgreSQL Deployment 
@@ -33,7 +35,9 @@
     wait: true
     wait_timeout: 300
     force: true
+  when: delete_data | bool
   tags: postgres
+
 
 - name: Wait - Delete PostgreSQL Deployment 
   kubernetes.core.k8s_info:
@@ -45,6 +49,7 @@
   retries: 5
   delay: 100
   until: info_deployment.resources | length == 0
+  when: delete_data | bool
   tags: postgres
 
 - name: Delete PostgreSQL PVC
@@ -56,6 +61,7 @@
       metadata:
         name: "{{ pvc_name }}"
         namespace: default
+  when: delete_data | bool
   tags: postgres
 
 - name: Wait - Delete PostgreSQL PVC
@@ -68,4 +74,5 @@
   retries: 5
   delay: 100
   until: info_pvc.resources | length == 0
+  when: delete_data | bool
   tags: postgres
