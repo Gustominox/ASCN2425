@@ -4,7 +4,7 @@
     state: absent
     kind: Deployment
     namespace: default
-    name: moonshot
+    name: moonshot-deployment
   tags: undeploy
 
 - name: Delete Moonshot Service
@@ -12,7 +12,7 @@
     state: absent
     kind: Service
     namespace: default
-    name: moonshot
+    name: moonshot-host
   tags: undeploy
 
 - name: Undeploy the Moonshot hpa
