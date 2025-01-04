@@ -113,6 +113,7 @@
   delay: 10      # Atraso entre as tentativas
   until: >
     hpa_status.resources[0].status.desiredReplicas > 0
+  tags: ['hpa']  
   # A condição de saída será alcançada quando o número desejado de réplicas for maior que zero
 
 #- name: Debug HPA status after stabilization

@@ -48,6 +48,3 @@ spec:
             requests:
               cpu: "100m"  # Recurso mínimo de CPU reservado por pod
               memory: "128Mi"  # Recurso mínimo de memória reservado por pod
-            limits:
-              cpu: "200m"  # Limite máximo de CPU por pod
-              memory: "256Mi"  # Limite máximo de memória por pod
