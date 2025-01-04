@@ -51,11 +51,14 @@
 
     - name: Run JMeter test
       ansible.builtin.command:
-        cmd: >
-          /opt/apache-jmeter/apache-jmeter-5.6.3/bin/jmeter -n
-          -t /opt/apache-jmeter/apache-jmeter-5.6.3/bin/test_plan.jmx
-          -l /opt/apache-jmeter/apache-jmeter-5.6.3/bin/results.jtl
-      register: jmeter_result
+      cmd: >
+        /opt/apache-jmeter/apache-jmeter-5.6.3/bin/jmeter -n
+        -t /opt/apache-jmeter/apache-jmeter-5.6.3/bin/test_plan.jmx
+        -l /opt/apache-jmeter/apache-jmeter-5.6.3/bin/results.jtl
+        -Japp_ip={{ app_ip }}
+        -Japp_port={{ app_port }}
+    register: jmeter_result
+
 
     - name: Fetch JMeter results
       ansible.builtin.fetch:
