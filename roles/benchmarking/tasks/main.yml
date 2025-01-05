@@ -57,10 +57,47 @@
   args:
     executable: /bin/bash
 
+- name: Ensure results directory exists
+  ansible.builtin.file:
+    path: results
+    state: directory
+    mode: '0755'
+
+- name: Remove old results file if it exists
+  ansible.builtin.file:
+    path: /opt/apache-jmeter/apache-jmeter-5.6.3/bin/results.jtl
+    state: absent
+
 - name: Upload JMeter test plan
   ansible.builtin.copy:
     src: jmx_files/testetp2.jmx
     dest: /opt/apache-jmeter/apache-jmeter-5.6.3/bin/test_plan.jmx
+
+- name: Update app_ip in test plan
+  ansible.builtin.replace:
+    path: /opt/apache-jmeter/apache-jmeter-5.6.3/bin/test_plan.jmx
+    regexp: '(?<=<stringProp name="HTTPSampler.domain">)[^<]+'
+    replace: '{{ app_ip }}'
+
+- name: Update app_port in test plan
+  ansible.builtin.replace:
+    path: /opt/apache-jmeter/apache-jmeter-5.6.3/bin/test_plan.jmx
+    regexp: '(?<=<stringProp name="HTTPSampler.port">)[^<]+'
+    replace: '{{ app_port }}'
+
+
+- name: Update number of threads in test plan
+  ansible.builtin.replace:
+    path: /opt/apache-jmeter/apache-jmeter-5.6.3/bin/test_plan.jmx
+    regexp: '(?<=<intProp name="ThreadGroup.num_threads">)[^<]+'
+    replace: '{{ num_threads }}'
+
+- name: Update number of iterations in test plan
+  ansible.builtin.replace:
+    path: /opt/apache-jmeter/apache-jmeter-5.6.3/bin/test_plan.jmx
+    regexp: '(?<=<stringProp name="LoopController.loops">)[^<]+'
+    replace: '{{ num_iterations }}'
+
 
 - name: Run JMeter test
   ansible.builtin.command:
@@ -68,28 +105,28 @@
       /opt/apache-jmeter/apache-jmeter-5.6.3/bin/jmeter -n
       -t /opt/apache-jmeter/apache-jmeter-5.6.3/bin/test_plan.jmx
       -l /opt/apache-jmeter/apache-jmeter-5.6.3/bin/results.jtl
-      -Japp_ip={{ app_ip }}
-      -Japp_port={{ app_port }}
   register: jmeter_result
 
-#- name: Fetch JMeter results
-#  ansible.builtin.fetch:
-#    src: /opt/apache-jmeter/apache-jmeter-5.6.3/bin/results.jtl
-#    dest: ./results.jtl
-#    flat: yes
+- name: Copy results to playbook results directory
+  ansible.builtin.copy:
+    src: /opt/apache-jmeter/apache-jmeter-5.6.3/bin/results.jtl
+    dest: results/results.jtl
+    remote_src: yes
 
-#- name: Upload Python script to process results
-#  ansible.builtin.copy:
-#    src: process_results.py
-#    dest: /opt/process_results.py
-#    mode: '0755'
+- name: Upload Python script to process results
+  ansible.builtin.copy:
+    src: scripts_python/process_results.py
+    dest: results/process_results.py
 
-#- name: Process results into a Summary Report
-#  ansible.builtin.shell: python3 /opt/process_results.py ./results.jtl
-#  args:
-#    executable: /bin/bash
-#  register: processed_results
+- name: Analyze JMeter results
+  ansible.builtin.command:
+    cmd: python3 results/process_results.py results/results.jtl
+  register: analysis_result
 
-#- name: Display Summary Report
-#  ansible.builtin.debug:
-#    msg: "{{ processed_results.stdout }}"
+- name: Display test results
+  ansible.builtin.debug:
+    msg: "{{ analysis_result.stdout }}"
+
+
+
+

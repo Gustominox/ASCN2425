@@ -1,30 +1,34 @@
-import csv
 import sys
+import csv
 from prettytable import PrettyTable
 
-if len(sys.argv) != 2:
-    print("Usage: python3 process_results.py <results_file>")
-    sys.exit(1)
+def analyze_results(file_path):
+    with open(file_path, 'r') as file:
+        reader = csv.DictReader(file)
+        response_times = []
+        start_times = []
+        end_times = []
 
-results_file = sys.argv[1]
-fields = ['label', '#samples', 'avg', 'min', 'max', 'error%', 'throughput']
-summary_table = PrettyTable()
-summary_table.field_names = fields
-
-try:
-    with open(results_file, 'r') as f:
-        reader = csv.DictReader(f)
         for row in reader:
-            summary_table.add_row([
-                row['label'],
-                row['#samples'],
-                row['avg'],
-                row['min'],
-                row['max'],
-                row['error%'],
-                row['throughput']
-            ])
-    print(summary_table)
-except Exception as e:
-    print(f"Error processing results: {e}")
-    sys.exit(1)
+            response_times.append(float(row['elapsed']))
+            start_times.append(float(row['timeStamp']))
+            end_times.append(float(row['timeStamp']) + float(row['elapsed']))
+
+        avg_response_time = sum(response_times) / len(response_times)
+        throughput = len(response_times) / ((max(end_times) - min(start_times)) / 1000)
+
+        table = PrettyTable()
+        table.field_names = ["Metric", "Value"]
+        table.add_row(["Average Response Time (ms)", round(avg_response_time, 2)])
+        table.add_row(["Throughput (requests/sec)", round(throughput, 2)])
+        
+        return table
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python3 process_results.py <results_file>")
+        sys.exit(1)
+
+    results_file = sys.argv[1]
+    result_table = analyze_results(results_file)
+    print(result_table)
