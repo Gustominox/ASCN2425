@@ -7,6 +7,17 @@
     name: moonshot-deployment
   tags: undeploy
 
+- name: Wait - Delete Moonshot Deployment
+  kubernetes.core.k8s_info:
+    kind: Deployment
+    namespace: default
+    name: moonshot-deployment
+  register: info_deployment
+  retries: 5
+  delay: 10
+  until: info_deployment.resources | length == 0
+  tags: undeploy
+
 - name: Delete Moonshot Service
   kubernetes.core.k8s:
     state: absent
@@ -15,12 +26,34 @@
     name: moonshot-host
   tags: undeploy
 
+- name: Wait - Delete Moonshot Service
+  kubernetes.core.k8s_info:
+    kind: Service
+    namespace: default
+    name: moonshot-host
+  register: info_service
+  retries: 5
+  delay: 10
+  until: info_service.resources | length == 0
+  tags: undeploy
+
 - name: Undeploy the Moonshot hpa
   kubernetes.core.k8s:
     state: absent
     kind: HorizontalPodAutoscaler
     namespace: default
     name: moonshot-hpa
+  tags: undeploy
+
+- name: Wait - Delete Moonshot hpa
+  kubernetes.core.k8s_info:
+    kind: HorizontalPodAutoscaler
+    namespace: default
+    name: moonshot-hpa
+  register: info_hpa
+  retries: 5
+  delay: 10
+  until: info_hpa.resources | length == 0
   tags: undeploy
 
 - name: Delete moon-secret
@@ -32,6 +65,17 @@
       metadata:
         name: moon-secret
         namespace: default
+  tags: moonshot
+
+- name: Wait - Delete moon-secret
+  kubernetes.core.k8s_info:
+    kind: Secret
+    namespace: default
+    name: moon-secret
+  register: info_secret
+  retries: 5
+  delay: 10
+  until: info_secret.resources | length == 0
   tags: moonshot
 
 - name: Clean up app_ip in GCP inventory
