@@ -2,7 +2,6 @@
 - name: Ensure facts are gathered
   ansible.builtin.setup:
 
-
 - name: Install Java if not already installed (RedHat-based)
   ansible.builtin.yum:
     name: java-11-openjdk
@@ -15,6 +14,19 @@
     state: present
     update_cache: yes
   when: ansible_os_family == "Debian"
+
+- name: Install PrettyTable via system package manager (Debian-based)
+  ansible.builtin.apt:
+    name: python3-prettytable
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install PrettyTable via system package manager (RedHat-based)
+  ansible.builtin.yum:
+    name: python3-prettytable
+    state: present
+  when: ansible_os_family == "RedHat"
+
 
 - name: Create directory for JMeter
   ansible.builtin.file:
@@ -60,12 +72,24 @@
       -Japp_port={{ app_port }}
   register: jmeter_result
 
-- name: Fetch JMeter results
-  ansible.builtin.fetch:
-    src: /opt/apache-jmeter/apache-jmeter-5.6.3/bin/results.jtl
-    dest: ./results.jtl
-    flat: yes
+#- name: Fetch JMeter results
+#  ansible.builtin.fetch:
+#    src: /opt/apache-jmeter/apache-jmeter-5.6.3/bin/results.jtl
+#    dest: ./results.jtl
+#    flat: yes
 
-- name: Display JMeter results
-  ansible.builtin.debug:
-    msg: "{{ lookup('file', './results.jtl') }}"
+#- name: Upload Python script to process results
+#  ansible.builtin.copy:
+#    src: process_results.py
+#    dest: /opt/process_results.py
+#    mode: '0755'
+
+#- name: Process results into a Summary Report
+#  ansible.builtin.shell: python3 /opt/process_results.py ./results.jtl
+#  args:
+#    executable: /bin/bash
+#  register: processed_results
+
+#- name: Display Summary Report
+#  ansible.builtin.debug:
+#    msg: "{{ processed_results.stdout }}"
