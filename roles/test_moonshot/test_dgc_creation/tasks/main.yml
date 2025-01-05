@@ -81,5 +81,5 @@
     path: inventory/gcp.yml
     after: "dgc_uvci:"
     before: '\n'
-    regexp: "^(.+)$"
+    regexp: "^(.*)$"
     replace: " {{ created_dgc.json.uvci }}"
